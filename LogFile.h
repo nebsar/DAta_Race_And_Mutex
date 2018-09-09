@@ -28,6 +28,7 @@ class LogFile {
 
 public:
     LogFile();
+    ~LogFile();
     void shared_print(string, int);
     // Never return f to outside world
     // For example:

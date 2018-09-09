@@ -24,6 +24,10 @@ LogFile::LogFile() {
     f.open("log.txt");
 } // Never return f to outside world;
 
+LogFile::~LogFile() {
+    f.close();
+}
+
 void LogFile::shared_print(string id, int value) {
     std::lock_guard<std::mutex> locker(m_mutex);
     f << "From " << id << " : " << value << endl;
