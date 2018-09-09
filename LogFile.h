@@ -18,16 +18,29 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <mutex>
 
 using namespace std;
 
 class LogFile {
     std::mutex m_mutex;
-    ofstream f;
+    ofstream f; // Never return f to outside world;
 
 public:
     LogFile();
     void shared_print(string, int);
+    // Never return f to outside world
+    // For example:
+
+    ofstream& getStream() {
+        return f;
+    }
+    // Never pass f as an argument to user function. For example:
+
+    void processf(void func(ofstream&)) {
+        func(f);
+    }
+
 };
 
 #endif /* LOGFILE_H */

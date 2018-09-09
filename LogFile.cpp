@@ -22,9 +22,10 @@ using namespace std;
 
 LogFile::LogFile() {
     f.open("log.txt");
-}
+} // Never return f to outside world;
 
-void LogFile::shared_print(string msg, int id) {
+void LogFile::shared_print(string id, int value) {
     std::lock_guard<std::mutex> locker(m_mutex);
+    f << "From " << id << " : " << value << endl;
 }
 

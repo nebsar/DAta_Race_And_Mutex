@@ -16,6 +16,8 @@
 #include <iostream>
 #include <mutex>
 
+#include "LogFile.h"
+
 using namespace std;
 
 /*
@@ -31,17 +33,19 @@ void shared_print(const char* msg, int i) {
     // mu.unlock();
 }
 
-void function() {
+void function(LogFile& log) {
     for (int i = 0; i>-100; i--)
-        shared_print("From t1 : ", i);
+        log.shared_print("t1 : ", i);
 }
 
 int main(int argc, char** argv) {
 
-    thread t1(function);
+    LogFile log;
+
+    thread t1(function, std::ref(log));
 
     for (int i = 0; i < 100; i++) {
-        shared_print("From Main Thread : ", i);
+        log.shared_print("Main Thread : ", i);
     }
 
     t1.join();
